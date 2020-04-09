@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    title= `${title}`
+    link(rel='stylesheet', href='')
+    link(rel="shortcut icon" type="image/png" href="")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    block header
+      header.header
+        nav
+          ul.nav__list
+            if !user
+              li.nav__item
+                a.nav__link(href=`/login`) Login
+              li.nav__item
+                a.nav__link(href=`/register`) Register
+            else
+              li.nav__item
+                a.nav__link(href=`logout`) Logout
+        p.paragraph Header
+    block messages
+      if locals.flashes
+        .inner
+          .flash-messages
+            - const categories = Object.keys(locals.flashes)
+            each category in categories
+              each message in flashes[category]
+                .flash(class=`flash--${category}`)
+                  p.flash__text!= message
+                  button.flash__remove(onClick="this.parentElement.remove()") &times;
+    div.content
+      block content 
+    block footer
+      footer.footer
+        p.paragraph Footer

@@ -1,0 +1,17 @@
+mixin registerForm(body={})
+  form.form(method="POST" action="")
+    ul.form__list
+      li.form__item
+        label(for="name") Name
+        input(type="text", name="name", id="name", value=(body.name))
+      li.form__item
+        label(for="email") Email Address
+        input(type="email", name="email", id="email", value=(body.email))
+      li.form__item
+        label(for="password") Password
+        input(type="password" name="password" id="password")
+      li.form__item
+        label(for="confirm-password") Confirm Password
+        input(type="password" name="confirm-password" id="confirm-password")
+      li.form__item.form__item--button
+        button.button(type="submit") Register

@@ -1,0 +1,63 @@
+mixin editItemForm(brands=[], collections=[], finishes=[], item={}, body={})
+  form.form(method="POST" action=`/admin/item/edit/${item._id || ''}`)
+    pre= h.dump(body)
+    ul.form__list
+      li.form__item
+        label(for="brandId") Brand
+        select.select(name="brandId" id="brandId")
+          option(value="") Select
+          each b in brands
+            - const brandId = item.brandId || body.brandId;
+            option(name=b._id, value=b._id, selected= b._id == brandId) #{b.name}
+      li.form__item
+        label(for="collectionId") Collection
+        select.select(name="collectionId" id="collectionId")
+          option(value="") Select
+          each c in collections
+            - const collectionId = item.collectionId || body.collectionId;
+            option(name=c._id value=c._id selected= c._id == collectionId) #{c.name}
+      li.form__item
+        label(for="finishId") Finish
+        select.select(name="finishId" id="finishId")
+          option(value="") Select
+          each f in finishes
+            - const finishId = item.finishId || body.finishId;
+            option(name=f._id value=f._id selected= f._id == finishId) #{f.name}
+      li.form__item
+        label(for="purchaseDate") Purchase Date
+        - const purchaseDate = item.purchaseDate || body.purchaseDate;
+        input(type="date" name="purchaseDate" id="purchaseDate" value=purchaseDate)
+      li.form__item
+        p Condition
+        - const conditionOptions = ['New', 'Unopened', 'Opened', 'Unused', 'Used', 'Damaged Tin', 'Damaged Seal', 'Damaged Handle']
+        each c in conditionOptions
+          - const itemCondition = item.condition || body.condition;
+          - const isChecked = itemCondition && itemCondition.includes(c) ? true : false;
+          label(for="condition") 
+            input(type="checkbox" name="condition" id=c value=c checked= isChecked)
+            span= c
+      li.form__item
+        label(for="originalSize") Original Size
+        - const sizes = [10, 5, 2.5, 0.5]
+        select.select(name="originalSize" id="originalSize")
+          option(value="") Select
+          each s in sizes
+            - const originalSize = item.originalSize || body.originalSize;
+            - const selected = Number(s) == originalSize ? true : false;
+            option(name=s, value=s, selected= selected) #{s} Litres
+      li.form__item
+        - const quantityRemaining = item.quantityRemaining || body.quantityRemaining;
+        label(for="quantityRemaining") Quantity Remaining
+        input(type="text" name="quantityRemaining" id="quantityRemaining" value=quantityRemaining) 
+        span Litres
+      li.form__item
+        - const images = item.images || body.images;
+        label(for="images") Images
+        input(type="file" name="image" id="image")
+        input(type="hidden" name="images" id="images" value=images)
+      li.form__item
+        - const description = item.description || body.description;
+        label(for="description") Description
+        textarea(name="description" id="description" rows="5")= description
+      li.form__item.form__item--button
+        button.button(type="submit") Submit

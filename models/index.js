@@ -1,0 +1,10 @@
+exports.Item = require('./Item');
+exports.User = require('./User');
+exports.Brand = require('./Brand');
+exports.Collection = require('./Collection');
+exports.Finish = require('./Finish');
+exports.WishList = require('./WishList');
+exports.Colour = require('./Colour');
+exports.BrandColour = require('./BrandColour');
+exports.Condition = require('./Condition');
+exports.Tone = require('./Tone');

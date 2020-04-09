@@ -1,0 +1,7 @@
+extends layout
+
+include mixins/_editItemForm
+
+block content
+  .inner
+    +editItemForm(brands, collections, finishes, item, body)

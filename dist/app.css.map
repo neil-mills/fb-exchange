@@ -1,0 +1,1 @@
+{"version":3,"sources":["sass/styles.scss"],"names":[],"mappings":"AAAA;AAAA;EAEI;EACA","file":"app.css","sourceRoot":"../public","sourcesContent":["body,\nhtml {\n    margin: 0;\n    padding: 0;\n}"]}

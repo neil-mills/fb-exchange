@@ -1,0 +1,11 @@
+mixin loginForm(body={})
+  form.form(method="POST" action="")
+    ul.form__list
+      li.form__item
+        label(for="email") Email Address
+        input(type="text", name="email", id="email", value=(body.email))
+      li.form__item
+        label(for="password") Password
+        input(type="password" name="password" id="password")
+      li.form__item.form__item--button
+        button.button(type="submit") Login
