@@ -21,20 +21,7 @@ exports.itemValidationRules = () => {
   ];
 };
 
-exports.getItemOptions = async (req, res, next) => {
-  // TO DO: implement cacheing on the mongoose requests
-  const brandPromise = Brand.find().sort('name');
-  const collectionPromise = Collection.find().sort('name');
-  const finishPromise = Finish.find().sort('name');
-  const promises = [brandPromise, collectionPromise, finishPromise];
-  const [brands, collections, finishes] = await Promise.all(promises);
-  req.app.set('brands', brands);
-  req.app.set('collections', collections);
-  req.app.set('finishes', finishes);
-  next();
-};
-
-exports.validateItem = (req, res, next) => {
+exports.validateItem = async (req, res, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     return next(); //if no errors, goto add/update middleware
@@ -43,12 +30,21 @@ exports.validateItem = (req, res, next) => {
     'error',
     errors.array().map((err) => err.msg)
   );
+  const brandsReq = Brand.find().sort('name');
+  const collectionsReq = Collection.find().sort('name');
+  const finishesReq = Finish.find().sort('name');
+  const [brands, collections, finishes] = await Promises.all([
+    brandsReq,
+    collectionsReq,
+    finishesReq,
+  ]);
+
   res.render('editItem', {
     title: 'Add Item',
     body: req.body,
-    brands: req.app.get('brands'),
-    collections: req.app.get('collections'),
-    finishes: req.app.get('finishes'),
+    brands,
+    collections,
+    finishes,
     flashes: req.flash(),
   });
 };
@@ -82,7 +78,7 @@ exports.createItem = async (errors, req, res) => {
     userId: req.user._id,
   }).save();
   req.flash('success', 'Item successfully posted');
-  return res.redirect('/');
+  return res.redirect(`/admin/item/edit/${item._id}`);
 };
 
 exports.updateItem = async (req, res) => {
@@ -111,49 +107,44 @@ exports.updateItem = async (req, res) => {
       description,
     },
     { new: true }
-  ); 
-  if (item) {
-    req.flash('success', "Item has been updated");
-    const collections = await Collection.find({ brandId: item.brandId });
-    const finishes = await Finish.find({ });
-    res.render('editItem', {
-      title: 'Edit Item',
-      brands: req.app.get('brands'),
-      collections,
-      finishes
-    }
-    )
-  }
+  );
+  req.flash('success', 'Item has been updated');
+  req.redirect(`/admin/item/edit/${item._id}`);
 };
 
 exports.renderAddItem = async (req, res) => {
+  const brandsReq = Brand.find().sort('name');
+  const collectionsReq = Collection.find().sort('name');
+  const finishesReq = Finish.find().sort('name');
+  const [brands, collections, finishes] = await Promises.all([
+    brandsReq,
+    collectionsReq,
+    finishesReq,
+  ]);
+
   res.render('editItem', {
     title: 'Add Item',
-    brands: req.app.get('brands'),
-    collections: req.app.get('collections'),
-    finishes: req.app.get('finishes'),
-  });
-};
-
-exports.renderEditItem = async (req, res) => {
-  const item = await Item.findOne({ _id: req.params.id });
-  res.render('editItem', {
-    title: 'Edit Item',
-    item,
-    brands: req.app.get('brands'),
-    collections: req.app.get('collections'),
-    finishes: req.app.get('finishes'),
+    brands,
+    collections,
+    finishes,
   });
 };
 
 exports.renderEditItem = async (req, res) => {
   const item = req.params.id ? await Item.findOne({ _id: req.params.id }) : {};
-  res.locals.tmp = 'editItem';
+  const brandsReq = Brand.find().sort('name');
+  const collectionsReq = Collection.find().sort('name');
+  const finishesReq = Finish.find().sort('name');
+  const [brands, collections, finishes] = await Promises.all([
+    brandsReq,
+    collectionsReq,
+    finishesReq,
+  ]);
   res.render('editItem', {
     title: 'Add Item',
-    brands: req.app.get('brands'),
-    collections: req.app.get('collections'),
-    finishes: req.app.get('finishes'),
+    brands,
+    collections,
+    finishes,
     item,
     body: req.app.get('body') || {},
   });
