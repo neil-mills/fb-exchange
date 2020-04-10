@@ -11,7 +11,7 @@ const collectionSchema = new mongoose.Schema({
     ref: 'Brand',
     required: true,
   },
-  finishId: {
+  finishes: {
     type: [mongoose.Schema.ObjectId],
     ref: 'Finish',
     required: true

@@ -1,0 +1,35 @@
+mixin editCollectionForm(brands=[], finishes=[], collection={}, body={})
+  form.form(method="POST" action=`/admin/collection/edit/${collection._id || ''}`)
+    ul.form__list
+      pre= h.dump(collection)
+      li.form__item
+        - const name = collection.name || body.name || '';
+        label(for="name") Name
+        input(type="text" name="name" id="name" value= name) 
+      li.form__item
+        label(for="brandId") Brand
+        select.select(name="brandId" id="brandId")
+          option(value="") Select
+          each b in brands
+            - const brandId = collection.brandId || body.brandId || '';
+            - const isSelected = b._id.toString() === brandId.toString() ? true : false;
+            option(name=b._id, value=b._id, selected= isSelected) #{b.name}
+      li.form__item
+        p Finishes
+        each f in finishes
+          - const collectionFinishes = collection.finishes || body.finishes || [];
+          - const isChecked = collectionFinishes && collectionFinishes.includes(f._id) ? true : false;
+          label(for= f._id) 
+            input(type="checkbox" name="finishes" id= f._id value= f._id checked= isChecked)
+            span= f.name
+      li.form__item
+        - const images = collection.images || body.images;
+        label(for="images") Images
+        input(type="file" name="image" id="image")
+        input(type="hidden" name="images" id="images" value=images)
+      li.form__item
+        - const description = collection.description || body.description || '';
+        label(for="description") Description
+        textarea(name="description" id="description" rows="5")= description
+      li.form__item.form__item--button
+        button.button(type="submit") Submit

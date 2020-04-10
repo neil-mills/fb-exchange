@@ -1,0 +1,6 @@
+extends layout
+block content
+  ul.list
+    each c in collections
+      li.list__item
+        a.list__link(href=`/admin/collection/edit/${c._id}` title= c.name) #{c.name}
