@@ -10,25 +10,21 @@ const wishListSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  colourId: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Colour',
-  },
-  brandColourId: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'BrandColour',
-  },
-  brandId: {
+  brands: {
     type: [mongoose.Schema.ObjectId],
     ref: 'Brand',
   },
-  subBrandId: {
+  collections: {
     type: [mongoose.Schema.ObjectId],
-    ref: 'SubBrand',
+    ref: 'Collection',
   },
-  typeId: {
+  finishes: {
     type: [mongoose.Schema.ObjectId],
-    ref: 'Type',
+    ref: 'Finish',
+  },
+  colours: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Colour',
   },
   quantityMin: {
     type: Number,
@@ -39,6 +35,7 @@ const wishListSchema = new mongoose.Schema({
   },
   condition: {
     type: [mongoose.Schema.ObjectId],
+    ref: 'Condition',
   },
 });
 

@@ -11,9 +11,14 @@ const collectionSchema = new mongoose.Schema({
     ref: 'Brand',
     required: true,
   },
-  finishes: {
-    type: [mongoose.Schema.ObjectId],
+  finishId: {
+    type: mongoose.Schema.ObjectId,
     ref: 'Finish',
+    required: true
+  },
+  colourId: {
+    type: [mongoose.Schema.ObjectId],
+    ref: 'Colour',
     required: true
   },
   description: String,

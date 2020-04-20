@@ -7,6 +7,21 @@ const colourSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  brandId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Brand',
+    required: true
+  },
+  paletteId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Palette',
+    required: true,
+  },
+  toneId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Tone',
+    required: true,
+  }
 });
 
 const Colour = mongoose.model('Colour', colourSchema);

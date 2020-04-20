@@ -1,0 +1,46 @@
+{
+  "name": "fb-trading-point",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-watch": "nodemon ./start.js --ignore public/",
+    "build-watch": "parcel ./public/app.js",
+    "start": "concurrently \"npm run start-watch\" \"npm run build-watch\"",
+    "watch": "nodemon ./start.js --ignore public/",
+    "assets": "webpack -w --display-max-modules 0",
+    "build": "parcel build --out-dir ./public/dist ./public/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.1.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "es6-promisify": "^6.1.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "express-validator": "^6.4.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.9.7",
+    "mongoose-mongodb-errors": "0.0.2",
+    "nodemon": "^2.0.2",
+    "passport": "^0.4.1",
+    "passport-local-mongoose": "^6.0.1",
+    "path": "^0.12.7",
+    "pug": "^2.0.4",
+    "validator": "^13.0.0"
+  },
+  "devDependencies": {
+    "enzyme": "^3.11.0",
+    "jest": "^25.2.7",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.26.3"
+  }
+}

@@ -5,6 +5,6 @@ exports.Collection = require('./Collection');
 exports.Finish = require('./Finish');
 exports.WishList = require('./WishList');
 exports.Colour = require('./Colour');
-exports.BrandColour = require('./BrandColour');
+exports.Palette = require('./Palette');
 exports.Condition = require('./Condition');
 exports.Tone = require('./Tone');

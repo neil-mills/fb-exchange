@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { getItemsList } = require('../controllers/itemController');
+const { catchErrors } = require('../handlers/errors');
 const {
   renderLogin,
   registerValidationRules,
@@ -9,7 +11,7 @@ const {
 } = require('../controllers/userController');
 const { login, logout } = require('../controllers/authController');
 
-router.get('/', (req, res) => {
+router.get('/', catchErrors(getItemsList), (req, res) => {
   res.render('home', { title: 'Farrow & Ball Exchange' });
 });
 router.get('/login', renderLogin);

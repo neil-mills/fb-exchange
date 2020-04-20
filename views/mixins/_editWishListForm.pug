@@ -1,0 +1,62 @@
+mixin editWishListForm(data={}, wishListItem={}, body={})
+  form.form(method="POST" action=`/user/wishlist/edit/${wishListItem._id || ''}`)
+    ul.form__list
+      li.form__item
+        label(for="brands") Brands
+        - const wishlistBrands = wishListItem.brands || body.brands || [];
+        select.select(name="brandId" id="brandId" data-control="true")
+          option(value="") Select
+          each b in data.brands
+            - const isSelected = wishlistBrands.includes(b._id.toString());
+            option(name=b._id, value=b._id, selected= isSelected) #{b.name}
+      li.form__item
+        label(for="collections") Collections
+        - const isDisabled = wishlistBrands.length < 1;
+        select.select(name="collections" id="collections" disabled= isDisabled data-control="true" )
+          option(value="") Select
+          each c in data.collections
+            - const collections = wishListItem.collections || body.collections || "";
+            option(name=c._id value=c._id selected= c._id.toString() == collections) #{c.name}
+      li.form__item
+        label(for="finishes") Finishes
+        select.select(name="finishes" id="finishes" data-control="true")
+          - const wishlistFinishes = wishListItem.finishes || body.finishes || [];
+          option(value="") Select
+          each f in data.finishes
+            - const isSelected = wishlistFinishes.includes(f._id.toString());
+            option(name=f._id value=f._id selected= isSelected) #{f.name}
+      li.form__item
+        label(for="palette-1") Palette
+        select.select(name="palette[]" id="palette-1" data-colour-control="true")
+          option(value="") Select
+            each p in data.palettes
+              option(value= p._id) #{p.name}
+        label(for="tone-1") Tone
+        select.select(name="tone[]" id="tone-1")
+          option(value="") Select
+          each t in data.tones
+            option(value= t._id) #{t.name}
+        label(for="colour[]") Colour
+        - const wishlistColours = wishListItem.colours || body.colours || [];
+        select.select(name="colour[]" id="colour-1")
+          each c in data.colours
+            - const isSelected = wishlistColours.includes(c._id.toString());
+            option(value= c._id selected= isSelected) #{c.name}
+      li.form__item
+        label(for="quantityMin") Minimum quantity required
+        - const quantityMin = wishListItem.quantityMin || body.quantityMin || "";
+        input(type="text" name="quantityMin" id="quantityMin" value= quantityMin)
+      li.form__item
+        label(for="quantityMin") Maximum quantity required
+        - const quantityMax = wishListItem.quantityMax || body.quantityMax || "";
+        input(type="text" name="quantityMax" id="quantityMax" value= quantityMax)
+      li.form__item
+        p Condition
+        - const wishlistConditions = wishListItem.conditions || body.conditions || [];
+        each condition in data.conditions
+          - const isChecked = wishlistConditions.includes(condition._id.toString());
+          label(for= condition.name)
+            input(type="checkbox" name="condition" id= condition.name checked= isChecked)
+            span #{condition.name}
+      li.form__item.form__item--button
+        button.button(type="submit") Submit

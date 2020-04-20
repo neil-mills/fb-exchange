@@ -1,0 +1,14 @@
+mixin editBrandForm(brand={}, body={})
+  form.form(method="POST" action=`/admin/brand/edit/${brand._id || ''}`)
+    ul.form__list
+      li.form__item
+        - const name = brand.name || body.name || '';
+        label(for="name") Name
+        input(type="text" name="name" id="name" value= name) 
+      li.form__item
+        - const images = brand.images || body.images;
+        label(for="images") Images
+        input(type="file" name="image" id="image")
+        input(type="hidden" name="images" id="images" value=images)
+      li.form__item.form__item--button
+        button.button(type="submit") Submit

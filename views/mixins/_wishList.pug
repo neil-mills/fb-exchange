@@ -1,0 +1,15 @@
+mixin wishList()
+  h3 Wish list
+  ul.list
+    each item in wishList
+      li.list__item
+        ul
+          li Brands: 
+          li Collections:
+          li Finishes
+          li Colours:
+          li Condition:
+          li Minimum Quantity:
+          li Maximum Quantity:
+        a(href=`/user/wishlist/edit/${item._id}`) Edit item
+  a(href="/user/wishlist/add") Add item

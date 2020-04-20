@@ -1,0 +1,31 @@
+mixin editColourForm(brands=[], palettes=[], tones=[], colour={}, body={})
+  form.form(method="POST" action=`/admin/colour/edit/${colour._id || ''}`)
+    ul.form__list
+      li.form__item
+        - const name = colour.name || body.name || '';
+        label(for="name") Name
+        input(type="text" name="name" id="name" value= name) 
+      li.form__item
+        - const brandId = colour.brandId || body.brandId || '';
+        label(for="brandId") Brand
+        select.select(name="brandId" id="brandId")
+          option(value="") Select
+          each b in brands
+            - const isSelected = b._id.toString() === brandId.toString() ? true : false;
+            option(value= b._id selected= isSelected) #{b.name}
+      li.form__item
+        - const paletteId = colour.paletteId || body.paletteId || '';
+        label(for="paletteId") Palette
+        select.select(name="paletteId" id="paletteId")
+          each p in palettes
+            - const isSelected = p._id.toString() === paletteId.toString() ? true : false;
+            option(name= p._id value= p._id selected= isSelected) #{p.name}
+      li.form__item
+        - const toneId = colour.toneId || body.toneId || '';
+        label(for="toneId") Tone
+        select.select(name="toneId" id="toneId")
+          each t in tones
+            - const isSelected = t._id.toString() === toneId.toString() ? true : false;
+            option(name= t._id value= t._id selected= isSelected) #{t.name}      
+      li.form__item.form__item--button
+        button.button(type="submit") Submit

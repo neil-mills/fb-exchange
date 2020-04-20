@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { getFinishes } = require('../controllers/collectionController');
-const { getBrands } = require('../controllers/brandController');
+const { filterBrand } = require('../controllers/brandController');
+const { getFinishes, getCollection } = require('../controllers/collectionController');
+
 router.get('/collection/:id/finishes', getFinishes);
-const { catchErrors } = require('../handlers/errors');
-router.get('/brands', catchErrors(getBrands));
+router.get('/collection/:id', getCollection);
+router.get('/brand/:id', filterBrand);
 
 module.exports = router;

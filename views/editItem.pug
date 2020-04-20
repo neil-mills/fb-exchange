@@ -1,7 +1,5 @@
 extends layout
-
-include mixins/_editItemForm
-
+include ./mixins/_editItemForm
 block content
-  .inner
-    +editItemForm(brands, collections, finishes, item, body)
+  h3 #{title}
+  +editItemForm(brands, collections, finishes, colours, item, body)

@@ -1,0 +1,5 @@
+extends layout
+include mixins/_editColourForm
+block content
+  h2 #{title}
+  +editColourForm(brands, palettes, tones, colour, body)

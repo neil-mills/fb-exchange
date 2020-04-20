@@ -10,9 +10,15 @@ const flash = require('connect-flash');
 const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errors');
+const Bundler = require('parcel-bundler');
+const { entryFiles, options } = require('./parcel.config');
 require('./handlers/passport');
 // create our Express app
 const app = express();
+
+const bundler = new Bundler(entryFiles, options);
+
+app.use(bundler.middleware());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -56,10 +62,6 @@ app.use((req, res, next) => {
     user: req.user || null,
     currentPath: req.path
   }
-  // res.locals.h = helpers;
-  // res.locals.flashes = req.flash();
-  // res.locals.user = req.user || null;
-  // res.locals.currentPath = req.path;
   next();
 });
 

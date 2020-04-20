@@ -1,0 +1,7 @@
+extends layout
+block content
+  h2 #{title}
+  ul.list
+    each c in colours
+      li.list__item
+        a.list__link(href=`/admin/colour/edit/${c._id}` title= c.name) #{c.name}

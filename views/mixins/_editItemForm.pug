@@ -1,32 +1,38 @@
-mixin editItemForm(brands=[], collections=[], finishes=[], item={}, body={})
+mixin editItemForm(brands=[], collections=[], finishes=[], colours=[], item={}, body={})
   form.form(method="POST" action=`/admin/item/edit/${item._id || ''}`)
-    pre= h.dump(body)
     ul.form__list
       li.form__item
         label(for="brandId") Brand
-        select.select(name="brandId" id="brandId")
+        select.select(name="brandId" id="brandId" data-control="true")
           option(value="") Select
           each b in brands
-            - const brandId = item.brandId || body.brandId;
-            option(name=b._id, value=b._id, selected= b._id == brandId) #{b.name}
+            - const brandId = item.brandId || body.brandId || "";
+            option(name=b._id, value=b._id, selected= b._id.toString() == brandId) #{b.name}
       li.form__item
         label(for="collectionId") Collection
-        select.select(name="collectionId" id="collectionId")
+        select.select(name="collectionId" id="collectionId" data-control="true" data-filtered="true" disabled= !item.brandId && !body.brandId)
           option(value="") Select
           each c in collections
-            - const collectionId = item.collectionId || body.collectionId;
-            option(name=c._id value=c._id selected= c._id == collectionId) #{c.name}
+            - const collectionId = item.collectionId || body.collectionId || "";
+            option(name=c._id value=c._id selected= c._id.toString() == collectionId) #{c.name}
       li.form__item
         label(for="finishId") Finish
-        select.select(name="finishId" id="finishId")
+        select.select(name="finishId" id="finishId" disabled= !item.collectionId && !body.collectionId data-filtered="true")
           option(value="") Select
           each f in finishes
-            - const finishId = item.finishId || body.finishId;
-            option(name=f._id value=f._id selected= f._id == finishId) #{f.name}
+            - const finishId = item.finishId || body.finishId || "";
+            option(name=f._id value=f._id selected= f._id.toString() == finishId) #{f.name}
+      li.form__item
+        label(for="colourId") Colour
+        select.select(name="colourId" id="colourId" disabled= !item.collectionId && !body.collectionId data-filtered="true")
+          option(value="") Select
+          each c in colours
+            - const colourId = item.colourId || body.colourId || "";
+            option(name=c._id value=c._id selected= c._id.toString() == colourId) #{c.name}
       li.form__item
         label(for="purchaseDate") Purchase Date
         - const purchaseDate = item.purchaseDate || body.purchaseDate;
-        input(type="date" name="purchaseDate" id="purchaseDate" value=purchaseDate)
+        input(type="date" name="purchaseDate" id="purchaseDate" value= h.moment(purchaseDate).format('YYYY-MM-DD'))
       li.form__item
         p Condition
         - const conditionOptions = ['New', 'Unopened', 'Opened', 'Unused', 'Used', 'Damaged Tin', 'Damaged Seal', 'Damaged Handle']

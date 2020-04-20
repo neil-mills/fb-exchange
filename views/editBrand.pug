@@ -1,0 +1,5 @@
+extends layout
+include ./mixins/_editBrandForm
+block content
+  h2 #{title}
+  +editBrandForm(brand, body)

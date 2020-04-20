@@ -1,27 +1,39 @@
-mixin editCollectionForm(brands=[], finishes=[], collection={}, body={})
-  form.form(method="POST" action=`/admin/collection/edit/${collection._id || ''}`)
+mixin editCollectionForm(brands=[], finishes=[], colours=[], collection={}, body={})
+  form.form(method="POST" action=`/admin/collection/edit/${collection._id || body._id}`)
     ul.form__list
-      pre= h.dump(collection)
       li.form__item
         - const name = collection.name || body.name || '';
         label(for="name") Name
         input(type="text" name="name" id="name" value= name) 
       li.form__item
         label(for="brandId") Brand
-        select.select(name="brandId" id="brandId")
+        select.select(name="brandId" id="brandId" data-control="true")
           option(value="") Select
           each b in brands
             - const brandId = collection.brandId || body.brandId || '';
             - const isSelected = b._id.toString() === brandId.toString() ? true : false;
             option(name=b._id, value=b._id, selected= isSelected) #{b.name}
       li.form__item
-        p Finishes
-        each f in finishes
-          - const collectionFinishes = collection.finishes || body.finishes || [];
-          - const isChecked = collectionFinishes && collectionFinishes.includes(f._id) ? true : false;
-          label(for= f._id) 
-            input(type="checkbox" name="finishes" id= f._id value= f._id checked= isChecked)
-            span= f.name
+        label(for="finishId") Finish
+        select(name="finishId" id="finishId")
+          option(value="") Select
+          each f in finishes
+            - const finishId = collection.finishId || body.finishId || '';
+            - const isSelected = f._id.toString() === finishId.toString() ? true : false;
+            option(value= f._id, selected= isSelected) #{f.name}
+      li.form__item
+        p Colours
+        ul
+          li 
+            select(name="colourId" id="colourId")
+              option(value="") Select
+              each c in colours
+                - const colourId = collection.colourId || body.colourId || [];
+                - const isSelected = colourId.includes(c._id.toString()) ? true : false;
+                option(value= c._id, selected= isSelected) #{c.name}
+            a Delete
+          li
+            button Add Colour
       li.form__item
         - const images = collection.images || body.images;
         label(for="images") Images

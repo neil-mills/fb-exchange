@@ -1,0 +1,7 @@
+extends layout
+block content
+  h2 #{title}
+  ul.list
+    each b in brands
+      li.list__item
+        a.list__link(href=`/admin/brand/edit/${b._id}` title= b.name) #{b.name}

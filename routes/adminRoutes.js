@@ -1,15 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const {
-  getItemOptions,
-  itemValidationRules,
-  validateItem,
-  createItem,
-  updateItem,
-  renderAddItem,
-  renderEditItem,
-} = require('../controllers/itemController');
-const {
   collectionValidationRules,
   validateCollection,
   createCollection,
@@ -19,30 +10,10 @@ const {
   renderEditCollection,
 } = require('../controllers/collectionController');
 
+const { brandValidationRules, validateBrand, createBrand, updateBrand, renderBrandList, renderAddBrand, renderEditBrand } = require('../controllers/brandController');
+const { colourValidationRules, validateColour, createColour, updateColour, renderColourList, renderAddColour, renderEditColour } = require('../controllers/colourController');
 const { catchErrors } = require('../handlers/errors');
 
-//item
-
-router.get('/item/edit', getItemOptions, catchErrors(renderAddItem));
-
-router.post(
-  '/item/edit',
-  itemValidationRules(),
-  getItemOptions,
-  validateItem,
-  catchErrors(createItem)
-);
-
-router.get('/item/edit/:id', catchErrors(renderEditItem));
-
-router.post(
-  '/item/edit/:id',
-  itemValidationRules(),
-  getItemOptions,
-  validateItem,
-  //update item middleware here **
-  catchErrors(renderEditItem)
-);
 
 // collection
 
@@ -52,8 +23,8 @@ router.get('/collection/edit', catchErrors(renderAddCollection));
 
 router.post(
   '/collection/edit',
-  collectionValidationRules(),
   catchErrors(validateCollection),
+  collectionValidationRules(),
   catchErrors(createCollection)
 );
 
@@ -64,5 +35,44 @@ router.post(
   catchErrors(validateCollection),
   catchErrors(updateCollection)
 );
+
+//brand
+
+router.get('/brand', catchErrors(renderBrandList));
+router.get('/brand/edit', renderAddBrand);
+router.post(
+  '/brand/edit',
+  brandValidationRules(),
+  validateBrand,
+  catchErrors(createBrand)
+);
+
+router.get('/brand/edit/:id', catchErrors(renderEditBrand));
+router.post(
+  '/brand/edit/:id',
+  brandValidationRules(),
+  validateBrand,
+  catchErrors(updateBrand)
+);
+
+router.get('/colour', catchErrors(renderColourList));
+
+router.get('/colour/edit', catchErrors(renderAddColour));
+
+router.get('/colour/edit/:id', catchErrors(renderEditColour));
+
+router.post(
+  '/colour/edit',
+  colourValidationRules(),
+  catchErrors(validateColour),
+  catchErrors(createColour)
+);
+
+router.post(
+  '/colour/edit/:id',
+  colourValidationRules(),
+  catchErrors(validateColour),
+  catchErrors(updateColour)
+)
 
 module.exports = router;

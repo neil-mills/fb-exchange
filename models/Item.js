@@ -20,6 +20,11 @@ const itemSchema = new mongoose.Schema({
     ref: 'Finish',
     required: [true, 'Select a finish']
   },
+  colourId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Colour',
+    required: true
+  },
   purchaseDate: {
     type: Date,
     required: [true, 'Enter a purchase date']
